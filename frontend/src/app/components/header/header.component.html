@@ -38,8 +38,8 @@
         <li><a>My Account</a></li>
         <li><a>Night mode</a></li>
         } @else {
-        <li><a>Sign in</a></li>
-        <li><a>Join us</a></li>
+        <li><a routerLink="/login">Sign in</a></li>
+        <li><a routerLink="/register">Join us</a></li>
         } @if (user) {
         <div class="border-t-2 mt-auto pt-2">
           <li><a>Sing out</a></li>
@@ -90,8 +90,8 @@
       </ul>
     </div>
     }@else{
-    <a class="btn btn-ghost mr-2">Sign in</a>
-    <a class="btn btn-primary">Join us</a>
+    <a class="btn btn-ghost mr-2" routerLink="/login">Sign in</a>
+    <a class="btn btn-primary" routerLink="/register">Join us</a>
     }
   </div>
 </div>

@@ -1,1 +1,45 @@
-<p>login-form works!</p>
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-col items-center my-10 px-2 sm-px-0"
+>
+  <label class="form-control w-full max-w-xs my-2">
+    <div class="label">
+      <span class="label-text font-bold">User name</span>
+    </div>
+    <input
+      type="text"
+      placeholder="Username"
+      class="input input-bordered w-full max-w-xs"
+      formControlName="username"
+    />
+    <div class="h-2">
+      @if (username?.invalid && (username?.dirty || username?.touched)) {
+      <span class="text-error">Username is required</span>
+      }
+    </div>
+  </label>
+  <label class="form-control w-full max-w-xs my-2">
+    <div class="label">
+      <span class="label-text font-bold">Password</span>
+    </div>
+    <input
+      type="password"
+      placeholder="Password"
+      class="input input-bordered w-full max-w-xs"
+      formControlName="password"
+    />
+    <div class="h-2">
+      @if (password?.invalid && (password?.dirty || password?.touched)) {
+      <span class="text-error">Password is required</span>
+      }
+    </div>
+  </label>
+  <button
+    type="submit"
+    class="btn btn-primary w-full max-w-xs mt-10"
+    [disabled]="!loginForm.valid"
+  >
+    Sign In
+  </button>
+</form>

@@ -4,6 +4,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 
 export const routes: Routes = [
   {
@@ -25,5 +26,13 @@ export const routes: Routes = [
   {
     path: 'pricing',
     component: PricingComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+  },
+  {
+    path: 'register',
+    component: RegistrationComponent,
   },
 ];
