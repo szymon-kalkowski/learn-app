@@ -1,1 +1,13 @@
-<p>box works!</p>
+<div class="card card-compact w-full bg-base-100 shadow-lg">
+  <figure class="flex justify-center items-center h-60">
+    <img [src]="box.image" class="w-full h-full object-cover" />
+  </figure>
+  <div class="card-body md:h-48">
+    <p class="text-primary">{{ box.tag }}</p>
+    <h2 class="card-title">{{ box.title }}</h2>
+    <div class="card-actions justify-between">
+      <p class="text-neutral">{{ box.date }}</p>
+      <div class="badge">{{ box.time }} mins read</div>
+    </div>
+  </div>
+</div>
