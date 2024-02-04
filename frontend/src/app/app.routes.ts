@@ -5,6 +5,7 @@ import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
+import { JoinUsComponent } from './pages/join-us/join-us.component';
 
 export const routes: Routes = [
   {
@@ -32,7 +33,11 @@ export const routes: Routes = [
     component: LoginPageComponent,
   },
   {
-    path: 'register',
+    path: 'register/:type',
     component: RegistrationComponent,
+  },
+  {
+    path: 'join-us',
+    component: JoinUsComponent,
   },
 ];

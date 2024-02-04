@@ -1,1 +1,6 @@
-<p>join-us works!</p>
+<h1 class="text-3xl font-bold text-center mt-5">Join Us</h1>
+<div class="p-4 md:p-10">
+  @for (box of boxes; track $index) {
+  <app-join-us-box [box]="box"></app-join-us-box>
+  }
+</div>
