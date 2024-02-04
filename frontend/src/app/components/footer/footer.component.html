@@ -1,1 +1,82 @@
-<p>footer works!</p>
+<footer class="p-4 md:p-10 bg-base-200 mt-5">
+  <div class="flex justify-center flex-wrap">
+    <div class="flex w-40 items-start justify-center">
+      <img src="assets/images/logo.svg" class="w-12" alt="logo" />
+      <h1 class="text-2xl font-bold">learn</h1>
+    </div>
+    <div class="w-40 my-2 text-center sm:text-start">
+      <h2 class="text-xl font-bold">Product</h2>
+      <ul class="list-none">
+        <li>
+          <a>Features</a>
+        </li>
+        <li>
+          <a routerLink="/pricing">Pricing</a>
+        </li>
+      </ul>
+    </div>
+    <div class="w-40 my-2 text-center sm:text-start">
+      <h2 class="text-xl font-bold">Resources</h2>
+      <ul class="list-none">
+        <li>
+          <a routerLink="/blog">Blog</a>
+        </li>
+        <li>
+          <a>User guides</a>
+        </li>
+        <li>
+          <a>Webinars</a>
+        </li>
+      </ul>
+    </div>
+    <div class="w-40 my-2 text-center sm:text-start">
+      <h2 class="text-xl font-bold">Company</h2>
+      <ul class="list-none">
+        <li>
+          <a routerLink="/about-us">About us</a>
+        </li>
+        <li>
+          <a>Contact us</a>
+        </li>
+      </ul>
+    </div>
+    <div class="w-80 my-2 text-center sm:text-start">
+      <h2 class="text-lg sm:text-xl font-bold text-primary">
+        Subscribe to our newsletter
+      </h2>
+      <p class="my-2 text-xs">
+        For product announcements and exclusive insights
+      </p>
+      <div class="join">
+        <input
+          class="input w-full input-bordered join-item"
+          placeholder="Input your email"
+        />
+        <div class="indicator">
+          <button class="btn btn-primary join-item">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex flex-col sm:flex-row sm:justify-between mt-10 border-t-2 border-white pt-10"
+  >
+    <select class="select select-bordered">
+      <option>English</option>
+      <option>Spanish</option>
+      <option>French</option>
+      <option>German</option>
+      <option>Polish</option>
+    </select>
+    <div class="flex items-center flex-wrap justify-center my-5 sm:my-0">
+      <p>© 2023 Learn, Inc.</p>
+      <a class="mx-2">• Privacy •</a>
+      <a>Terms</a>
+    </div>
+    <div class="flex items-center justify-center mb-2 sm:mb-0">
+      <img src="assets/images/x.svg" class="w-6 mx-2" alt="x" />
+      <img src="assets/images/fb.svg" class="w-6 mx-2" alt="facebook" />
+      <img src="assets/images/yt.svg" class="w-6 mx-2" alt="youtube" />
+    </div>
+  </div>
+</footer>
