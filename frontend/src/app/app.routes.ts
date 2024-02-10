@@ -6,6 +6,8 @@ import { BlogComponent } from './pages/blog/blog.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { JoinUsComponent } from './pages/join-us/join-us.component';
+import { MyAccountComponent } from './pages/my-account/my-account.component';
+import { MyAccountEditComponent } from './pages/my-account-edit/my-account-edit.component';
 
 export const routes: Routes = [
   {
@@ -39,5 +41,13 @@ export const routes: Routes = [
   {
     path: 'join-us',
     component: JoinUsComponent,
+  },
+  {
+    path: 'my-account',
+    component: MyAccountComponent,
+  },
+  {
+    path: 'my-account/edit',
+    component: MyAccountEditComponent,
   },
 ];
