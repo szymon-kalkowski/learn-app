@@ -4,14 +4,23 @@ const { v4: uuidv4 } = require("uuid");
 const AWS = require("aws-sdk");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { generateResponse } = require("./utils/generateResponse.js");
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.register = async (event) => {
   try {
-    const { firstName, lastName, email, password, role } = JSON.parse(
-      event.body
-    );
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      photo,
+      dateOfBirth,
+      address,
+      specializationId,
+    } = JSON.parse(event.body);
     if (!firstName || !lastName || !email || !password || !role) {
       return {
         statusCode: 400,
@@ -54,9 +63,10 @@ module.exports.register = async (event) => {
       id: uuidv4(),
       firstName,
       lastName,
-      username: email,
       email,
-      photo: body.photo,
+      role,
+      photo,
+      username: email,
       password: hashedPassword,
       isActive: false,
     };
@@ -67,8 +77,8 @@ module.exports.register = async (event) => {
       const studnet = {
         id: uuidv4(),
         userId: user.id,
-        dateOfBirth: body.dateOfBirth,
-        address: body.address,
+        dateOfBirth,
+        address,
       };
 
       await dynamoDb.put({ TableName: "students", Item: studnet }).promise();
@@ -76,7 +86,7 @@ module.exports.register = async (event) => {
       const trainer = {
         id: uuidv4(),
         userId: user.id,
-        specializationId: body.specializationId,
+        specializationId,
       };
 
       await dynamoDb.put({ TableName: "trainers", Item: trainer }).promise();
@@ -197,5 +207,25 @@ module.exports.login = async (event) => {
         2
       ),
     };
+  }
+};
+
+module.exports.jwtAuthorizer = async (event) => {
+  const { headers, routeArn } = event;
+  console.log(event);
+  console.log(headers);
+  try {
+    console.log(headers.authorization);
+    if (!headers.authorization) {
+      return generateResponse("user", "Deny", routeArn);
+    }
+
+    const token = headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    return generateResponse(decoded.id, "Allow", routeArn);
+  } catch (error) {
+    console.log("error", error);
+    return generateResponse("user", "Deny", routeArn);
   }
 };

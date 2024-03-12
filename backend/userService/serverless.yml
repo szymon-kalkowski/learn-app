@@ -11,6 +11,12 @@ provider:
   stage: dev
   region: us-east-1
 
+  httpApi:
+    authorizers:
+      jwtAuthorizer:
+        type: request
+        functionName: jwtAuthorizer
+
   iam:
     role:
       statements:
@@ -36,6 +42,24 @@ functions:
       - httpApi:
           path: /auth/login
           method: post
+  jwtAuthorizer:
+    handler: auth.jwtAuthorizer
+  getMe:
+    handler: user.getMe
+    events:
+      - httpApi:
+          path: /users/me
+          method: get
+          authorizer:
+            name: jwtAuthorizer
+  deleteMe:
+    handler: user.deleteMe
+    events:
+      - httpApi:
+          path: /users/me
+          method: delete
+          authorizer:
+            name: jwtAuthorizer
 
 resources:
   Resources:
@@ -71,18 +95,7 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-    TrainersTable:
-      Type: "AWS::DynamoDB::Table"
-      Properties:
-        TableName: trainers
-        AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
           - AttributeName: id
@@ -90,6 +103,41 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+    TrainersTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: trainers
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
     SpecializationsTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
