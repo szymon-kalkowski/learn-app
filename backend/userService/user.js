@@ -2,6 +2,7 @@
 
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -144,6 +145,86 @@ module.exports.deleteMe = async (event) => {
       statusCode: 200,
       body: JSON.stringify({ message: "User deleted" }, null, 2),
     };
+  } catch (error) {
+    console.log("error", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: "Internal Server Error",
+          errorCode: 500,
+        },
+        null,
+        2
+      ),
+    };
+  }
+};
+
+module.exports.updatePassword = async (event) => {
+  const { headers } = event;
+  const { oldPassword, newPassword } = JSON.parse(event.body);
+  try {
+    if (!oldPassword || !newPassword) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(
+          {
+            message: "Invalid request",
+            errorCode: 400,
+          },
+          null,
+          2
+        ),
+      };
+    }
+
+    const token = headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const params = {
+      TableName: "users",
+      Key: {
+        id: decoded.id,
+      },
+    };
+
+    const { Item: user } = await dynamoDb.get(params).promise();
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(
+          {
+            message: "Invalid password",
+            errorCode: 400,
+          },
+          null,
+          2
+        ),
+      };
+    } else {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const updateParams = {
+        TableName: "users",
+        Key: {
+          id: decoded.id,
+        },
+        UpdateExpression: "set password = :password",
+        ExpressionAttributeValues: {
+          ":password": hashedPassword,
+        },
+        ReturnValues: "UPDATED_NEW",
+      };
+
+      await dynamoDb.update(updateParams).promise();
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: "Password updated" }, null, 2),
+      };
+    }
   } catch (error) {
     console.log("error", error);
     return {
