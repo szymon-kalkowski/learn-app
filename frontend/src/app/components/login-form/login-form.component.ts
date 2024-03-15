@@ -5,6 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 interface LoginForm {
   username: FormControl<string | null>;
@@ -20,8 +22,9 @@ interface LoginForm {
 })
 export class LoginFormComponent {
   loginForm: FormGroup<LoginForm> = new FormGroup<LoginForm>({} as LoginForm);
+  loginError: string | null = null;
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
     this.loginForm = new FormGroup<LoginForm>({
       username: new FormControl<string | null>('', [Validators.required]),
       password: new FormControl<string | null>('', [Validators.required]),
@@ -37,6 +40,17 @@ export class LoginFormComponent {
   }
 
   onSubmit(): void {
-    alert(this.loginForm.value.username + ' ' + this.loginForm.value.password);
+    if (this.loginForm.valid) {
+      this.authService
+        .login(this.loginForm.value.username!, this.loginForm.value.password!)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/my-account']);
+          },
+          error: (error) => {
+            this.loginError = error;
+          },
+        });
+    }
   }
 }

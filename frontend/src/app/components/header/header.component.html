@@ -22,9 +22,14 @@
       >
         @if (user) {
         <div class="flex py-2 border-b-2 mb-2">
-          <img [src]="user.image" class="w-[50px] h-[50px] rounded-full mr-2" />
+          <img
+            [src]="user.photo || 'assets/images/avatar.svg'"
+            class="w-[50px] h-[50px] rounded-full mr-2"
+          />
           <div>
-            <div class="font-bold text-md">{{ user.name }}</div>
+            <div class="font-bold text-md">
+              {{ user.firstName }} {{ user.lastName }}
+            </div>
             <div class="text-neutral">{{ user.email }}</div>
           </div>
         </div>
@@ -42,7 +47,7 @@
         <li><a routerLink="/join-us">Join us</a></li>
         } @if (user) {
         <div class="border-t-2 mt-auto pt-2">
-          <li><a>Sing out</a></li>
+          <li (click)="logout()"><a>Sing out</a></li>
         </div>
         }
       </ul>
@@ -65,13 +70,15 @@
   </div>
   <div class="navbar-end hidden lg:flex w-full">
     @if (user) {
-    <div class="mr-2 font-bold text-md">{{ user.name }}</div>
+    <div class="mr-2 font-bold text-md">
+      {{ user.firstName }} {{ user.lastName }}
+    </div>
     <div class="dropdown dropdown-end">
       <img
         tabindex="0"
         role="button"
         class="rounded-full w-[50px] h-[50px]"
-        [src]="user.image"
+        [src]="user.photo || 'assets/images/avatar.svg'"
       />
       <ul
         tabindex="0"
@@ -85,7 +92,7 @@
           <li><a>Night mode</a></li>
         </div>
         <div class="mt-auto pt-2 border-t-2">
-          <li><a>Sing out</a></li>
+          <li (click)="logout()"><a>Sing out</a></li>
         </div>
       </ul>
     </div>

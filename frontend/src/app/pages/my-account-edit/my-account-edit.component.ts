@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user.model';
+import { Student, Trainer, User } from '../../models/user.model';
 import {
   FormControl,
   FormGroup,
@@ -26,16 +26,19 @@ export class MyAccountEditComponent implements OnInit {
     'QA',
   ];
 
-  user: User = {
+  user: Student | Trainer = {
+    id: 'xxx',
+    userId: 'yyy',
+    password: 'xxxx',
     firstName: 'John',
     lastName: 'Doe',
     username: 'johndoe',
     dateOfBirth: '1970-01-01',
     address: '1234 Elm St.',
     email: 'john.doe@gmail.com',
-    image:
+    photo:
       'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-    active: true,
+    isActive: true,
     role: 'student',
   };
 
@@ -50,17 +53,21 @@ export class MyAccountEditComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
-    active: new FormControl<boolean | null>(this.user.active || false),
+    active: new FormControl<boolean | null>(this.user.isActive || false),
   };
 
   studentFields = {
-    dateOfBirth: new FormControl<string | null>(this.user.dateOfBirth || ''),
-    address: new FormControl<string | null>(this.user.address || ''),
+    dateOfBirth: new FormControl<string | null>(
+      (this.user as Student).dateOfBirth || ''
+    ),
+    address: new FormControl<string | null>(
+      (this.user as Student).address || ''
+    ),
   };
 
   trainerFields = {
     specialization: new FormControl<string | null>(
-      this.user.specialization || '',
+      (this.user as Trainer).specializationId || '',
       [Validators.required]
     ),
   };
@@ -95,7 +102,7 @@ export class MyAccountEditComponent implements OnInit {
   }
 
   get specialization() {
-    return this.editForm.get('specialization');
+    return this.editForm.get('specializationId');
   }
 
   onSubmit(): void {

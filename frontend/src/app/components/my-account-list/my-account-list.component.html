@@ -2,20 +2,20 @@
 <div class="flex">
   <div class="avatar">
     <div class="w-24 rounded">
-      <img [src]="user.image" />
+      <img [src]="user.photo" />
     </div>
   </div>
   <div class="ml-4">
     <p class="font-bold">Status</p>
     <p
       [class]="{
-        'text-success': user.active,
-        'text-error': !user.active,
+        'text-success': user.isActive,
+        'text-error': !user.isActive,
         capitalize: true,
         'font-semibold': true
       }"
     >
-      {{ user.active ? "active" : "inactive" }}
+      {{ user.isActive ? "active" : "inactive" }}
     </p>
   </div>
 </div>
@@ -28,12 +28,12 @@
 <p>{{ user.email }}</p>
 @if (user.role === 'student') {
 <label class="font-bold block mt-3">Date od birth</label>
-<p>{{ user.dateOfBirth }}</p>
+<p>{{ student.dateOfBirth }}</p>
 <label class="font-bold block mt-3">Address</label>
-<p>{{ user.address }}</p>
+<p>{{ student.address }}</p>
 } @else {
 <label class="font-bold block mt-3">Specialization</label>
-<p>{{ user.specialization }}</p>
+<p>{{ trainer.specializationId }}</p>
 }
 
 <div class="flex flex-wrap mt-4 justify-center sm:justify-normal">

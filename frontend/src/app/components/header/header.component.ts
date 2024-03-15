@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Link } from '../../models/link.model';
-
-interface User {
-  name: string;
-  email: string;
-  image: string;
-}
+import { Student, Trainer } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -15,17 +11,23 @@ interface User {
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
-  //   user: User | null = {
-  //     name: 'John Doe',
-  //     email: 'john.doe@gmail.com',
-  //     image: 'https://via.placeholder.com/150',
-  //   };
-  user: User | null = null;
+export class HeaderComponent implements OnInit {
+  user: Student | Trainer | null = null;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.authService.getUser().subscribe((user) => (this.user = user));
+  }
 
   links: Link[] = [
     { path: '/blog', label: 'Blog' },
     { path: '/pricing', label: 'Pricing' },
     { path: '/about-us', label: 'About Us' },
   ];
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 }
