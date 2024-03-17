@@ -2,41 +2,44 @@
 <div class="flex">
   <div class="avatar">
     <div class="w-24 rounded">
-      <img [src]="user.photo" />
+      <img [src]="user?.photo || 'assets/images/avatar.svg'" />
     </div>
   </div>
   <div class="ml-4">
     <p class="font-bold">Status</p>
     <p
       [class]="{
-        'text-success': user.isActive,
-        'text-error': !user.isActive,
+        'text-success': user?.isActive,
+        'text-error': !user?.isActive,
         capitalize: true,
         'font-semibold': true
       }"
     >
-      {{ user.isActive ? "active" : "inactive" }}
+      {{ user?.isActive ? "active" : "inactive" }}
     </p>
   </div>
 </div>
 
 <label class="font-bold block mt-3">First Name</label>
-<p>{{ user.firstName }}</p>
+<p>{{ user?.firstName }}</p>
 <label class="font-bold block mt-3">Last Name</label>
-<p>{{ user.lastName }}</p>
+<p>{{ user?.lastName }}</p>
 <label class="font-bold block mt-3">Email</label>
-<p>{{ user.email }}</p>
-@if (user.role === 'student') {
+<p>{{ user?.email }}</p>
+@if (user?.role === 'student') { @if (student?.dateOfBirth) {
 <label class="font-bold block mt-3">Date od birth</label>
-<p>{{ student.dateOfBirth }}</p>
+<p>{{ student?.dateOfBirth }}</p>
+} @if (student?.address) {
 <label class="font-bold block mt-3">Address</label>
-<p>{{ student.address }}</p>
-} @else {
+<p>{{ student?.address }}</p>
+} } @else if (user?.role === 'trainer'){
 <label class="font-bold block mt-3">Specialization</label>
-<p>{{ trainer.specializationId }}</p>
+<p>{{ trainer?.specializationId | specialization }}</p>
 }
 
 <div class="flex flex-wrap mt-4 justify-center sm:justify-normal">
   <button class="btn btn-primary my-2" routerLink="edit">Edit profile</button>
-  <button class="btn btn-success my-2 mx-2">Change Password</button>
+  <button class="btn btn-success my-2 mx-2" routerLink="change-password">
+    Change Password
+  </button>
 </div>

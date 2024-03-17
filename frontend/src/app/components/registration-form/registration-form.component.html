@@ -1,3 +1,9 @@
+<div class="h-2 flex justify-center mb-2">
+  @if (registerError) {
+  <span class="text-error">{{ registerError }}</span
+  >}
+</div>
+
 <form
   [formGroup]="registerForm"
   (ngSubmit)="onSubmit()"
@@ -54,6 +60,26 @@
       }
     </div>
   </label>
+  <label class="form-control w-full max-w-md my-2">
+    <div class="label">
+      <span class="label-text font-bold">Password</span>
+    </div>
+    <input
+      type="password"
+      placeholder="Password"
+      class="input input-bordered w-full max-w-md"
+      formControlName="password"
+    />
+    <div class="h-2">
+      @if (password?.errors?.['required'] && (password?.dirty ||
+      password?.touched)) {
+      <span class="text-error">Password is required</span>
+      } @else if (password?.errors?.['minlength'] && (password?.dirty ||
+      password?.touched)) {
+      <span class="text-error">Minimum 8 characters required</span>
+      }
+    </div>
+  </label>
   @if (type === 'trainer') {
   <label class="form-control w-full max-w-md my-2">
     <div class="label">
@@ -61,11 +87,13 @@
     </div>
     <select
       class="select select-bordered w-full max-w-md"
-      formControlName="specialization"
+      formControlName="specializationId"
     >
       <option value="">Select Specialization</option>
       @for (specialization of specializations; track $index) {
-      <option [value]="specialization">{{ specialization }}</option>
+      <option [value]="specialization.id">
+        {{ specialization.specialization }}
+      </option>
       }
     </select>
     <div class="h-2">

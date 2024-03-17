@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Student, Trainer, User } from '../../models/user.model';
+import { Student, Trainer } from '../../models/user.model';
 import {
   FormControl,
   FormGroup,
@@ -7,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { specializations } from '../../constants/specializations';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-my-account-edit',
@@ -18,66 +20,53 @@ import { RouterLink } from '@angular/router';
 export class MyAccountEditComponent implements OnInit {
   editForm: FormGroup = new FormGroup({});
 
-  specializations: string[] = [
-    'Frontend',
-    'Backend',
-    'Fullstack',
-    'DevOps',
-    'QA',
-  ];
+  specializations = specializations;
 
-  user: Student | Trainer = {
-    id: 'xxx',
-    userId: 'yyy',
-    password: 'xxxx',
-    firstName: 'John',
-    lastName: 'Doe',
-    username: 'johndoe',
-    dateOfBirth: '1970-01-01',
-    address: '1234 Elm St.',
-    email: 'john.doe@gmail.com',
-    photo:
-      'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-    isActive: true,
-    role: 'student',
-  };
+  user: Student | Trainer | null = null;
 
-  fields = {
-    firstName: new FormControl<string | null>(this.user.firstName || '', [
-      Validators.required,
-    ]),
-    lastName: new FormControl<string | null>(this.user.lastName || '', [
-      Validators.required,
-    ]),
-    email: new FormControl<string | null>(this.user.email || '', [
-      Validators.required,
-      Validators.email,
-    ]),
-    active: new FormControl<boolean | null>(this.user.isActive || false),
-  };
+  constructor(private authService: AuthService) {}
 
-  studentFields = {
-    dateOfBirth: new FormControl<string | null>(
-      (this.user as Student).dateOfBirth || ''
-    ),
-    address: new FormControl<string | null>(
-      (this.user as Student).address || ''
-    ),
-  };
+  createForm(): void {
+    const fields = {
+      firstName: new FormControl<string | null>(this.user?.firstName || '', [
+        Validators.required,
+      ]),
+      lastName: new FormControl<string | null>(this.user?.lastName || '', [
+        Validators.required,
+      ]),
+      email: new FormControl<string | null>(this.user?.email || '', [
+        Validators.required,
+        Validators.email,
+      ]),
+      active: new FormControl<boolean | null>(this.user?.isActive || false),
+    };
 
-  trainerFields = {
-    specialization: new FormControl<string | null>(
-      (this.user as Trainer).specializationId || '',
-      [Validators.required]
-    ),
-  };
+    const studentFields = {
+      dateOfBirth: new FormControl<string | null>(
+        (this.user as Student)?.dateOfBirth || ''
+      ),
+      address: new FormControl<string | null>(
+        (this.user as Student)?.address || ''
+      ),
+    };
+
+    const trainerFields = {
+      specialization: new FormControl<string | null>(
+        (this.user as Trainer)?.specializationId || '',
+        [Validators.required]
+      ),
+    };
+
+    this.editForm = new FormGroup({
+      ...fields,
+      ...(this.user?.role === 'student' ? studentFields : trainerFields),
+    });
+  }
 
   ngOnInit(): void {
-    this.editForm = new FormGroup({
-      ...this.fields,
-      ...(this.user.role === 'student'
-        ? this.studentFields
-        : this.trainerFields),
+    this.authService.getUser().subscribe((user) => {
+      this.user = user!;
+      this.createForm();
     });
   }
 

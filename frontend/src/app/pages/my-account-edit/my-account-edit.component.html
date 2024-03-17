@@ -5,9 +5,10 @@
   <div class="flex flex-wrap mb-2">
     <div class="avatar">
       <div class="w-24 rounded">
-        <img [src]="user.photo" />
+        <img [src]="user?.photo || 'assets/images/avatar.svg'" />
       </div>
     </div>
+    <!-- === To do === 
     <div class="mx-0 sm:ml-4 flex flex-col justify-center">
       <p>Upload your photo</p>
       <p class="text-xs my-2">Your photo should be in PNG or JPG format</p>
@@ -16,7 +17,7 @@
         class="file-input file-input-bordered file-input-primary w-full max-w-xs"
         accept="image/png, image/jpg"
       />
-    </div>
+    </div> -->
   </div>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="flex flex-col">
     <label class="form-control w-full max-w-md mb-2">
@@ -70,7 +71,7 @@
         }
       </div>
     </label>
-    @if (user.role === 'trainer') {
+    @if (user?.role === 'trainer') {
     <label class="form-control w-full max-w-md my-2">
       <div class="label">
         <span class="label-text font-bold">Specialization</span>
@@ -81,7 +82,9 @@
       >
         <option value="">Select Specialization</option>
         @for (specialization of specializations; track $index) {
-        <option [value]="specialization">{{ specialization }}</option>
+        <option [value]="specialization.id">
+          {{ specialization.specialization }}
+        </option>
         }
       </select>
       <div class="h-2">
@@ -91,7 +94,7 @@
         }
       </div>
     </label>
-    } @else {
+    } @else if (user?.role === 'student'){
     <label class="form-control w-full max-w-md my-2">
       <div class="label">
         <span class="label-text font-bold">Date of Birth (optional)</span>

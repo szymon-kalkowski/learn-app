@@ -212,10 +212,7 @@ module.exports.login = async (event) => {
 
 module.exports.jwtAuthorizer = async (event) => {
   const { headers, routeArn } = event;
-  console.log(event);
-  console.log(headers);
   try {
-    console.log(headers.authorization);
     if (!headers.authorization) {
       return generateResponse("user", "Deny", routeArn);
     }

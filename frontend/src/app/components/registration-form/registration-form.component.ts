@@ -5,6 +5,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { specializations } from '../../constants/specializations';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 interface FormControls {
   [key: string]: FormControl;
@@ -20,14 +23,11 @@ interface FormControls {
 export class RegistrationFormComponent implements OnInit {
   @Input() type: string = '';
 
-  specializations: string[] = [
-    'Frontend',
-    'Backend',
-    'Fullstack',
-    'DevOps',
-    'QA',
-  ];
+  specializations = specializations;
   registerForm: FormGroup = new FormGroup({});
+  registerError: string | null = null;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   fields = {
     firstName: new FormControl<string | null>('', [Validators.required]),
@@ -36,9 +36,13 @@ export class RegistrationFormComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
+    password: new FormControl<string | null>('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
   };
   trainerFields: FormControls = {
-    specialization: new FormControl<string | null>('', [Validators.required]),
+    specializationId: new FormControl<string | null>('', [Validators.required]),
   };
   studentFields: FormControls = {
     dateOfBirth: new FormControl<string | null>(''),
@@ -76,7 +80,25 @@ export class RegistrationFormComponent implements OnInit {
     return this.registerForm.get('address');
   }
 
+  get password() {
+    return this.registerForm.get('password');
+  }
+
   onSubmit(): void {
-    console.log(this.registerForm.value);
+    if (this.registerForm.valid) {
+      this.authService
+        .register({
+          ...this.registerForm.value,
+          role: this.type,
+        })
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/login']);
+          },
+          error: (error) => {
+            this.registerError = error;
+          },
+        });
+    }
   }
 }

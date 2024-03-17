@@ -19,3 +19,20 @@ export interface Student extends User {
 export interface Trainer extends User {
   specializationId: string;
 }
+
+interface UserRegister {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+export interface StudentRegister extends UserRegister {
+  dateOfBirth?: string;
+  address?: string;
+}
+
+export interface TrainerRegister extends UserRegister {
+  specializationId: string;
+}

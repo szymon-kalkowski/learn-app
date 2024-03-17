@@ -40,7 +40,7 @@
           }}</a>
         </li>
         } @if (user) {
-        <li><a>My Account</a></li>
+        <li><a [routerLink]="'my-account'">My Account</a></li>
         <li><a>Night mode</a></li>
         } @else {
         <li><a routerLink="/login">Sign in</a></li>
@@ -88,7 +88,7 @@
           {{ user.email }}
         </div>
         <div>
-          <li><a>My Account</a></li>
+          <li><a [routerLink]="'my-account'">My Account</a></li>
           <li><a>Night mode</a></li>
         </div>
         <div class="mt-auto pt-2 border-t-2">
