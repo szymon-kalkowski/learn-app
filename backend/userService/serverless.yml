@@ -68,6 +68,14 @@ functions:
           method: delete
           authorizer:
             name: jwtAuthorizer
+  updateMe:
+    handler: user.updateMe
+    events:
+      - httpApi:
+          path: /users/me
+          method: put
+          authorizer:
+            name: jwtAuthorizer
   updatePassword:
     handler: user.updatePassword
     events:

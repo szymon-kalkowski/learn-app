@@ -1,4 +1,9 @@
 <h1 class="text-center text-3xl font-bold my-5">My Account</h1>
+<div class="h-2 w-full flex justify-center">
+  @if (editError) {
+  <span class="text-error">{{ editError }}</span>
+  }
+</div>
 <div class="px-2 sm:px-8">
   <h2 class="text-xl font-bold my-3">Edit profile</h2>
   <label class="block font-bold my-2">Profile photo</label>
@@ -78,7 +83,7 @@
       </div>
       <select
         class="select select-bordered w-full max-w-md"
-        formControlName="specialization"
+        formControlName="specializationId"
       >
         <option value="">Select Specialization</option>
         @for (specialization of specializations; track $index) {
@@ -88,8 +93,8 @@
         }
       </select>
       <div class="h-2">
-        @if ( specialization?.invalid && (specialization?.dirty ||
-        specialization?.touched) ) {
+        @if ( specializationId?.invalid && (specializationId?.dirty ||
+        specializationId?.touched) ) {
         <span class="text-error">Specialization is required</span>
         }
       </div>
@@ -123,7 +128,7 @@
         <input
           type="checkbox"
           class="toggle toggle-primary"
-          formControlName="active"
+          formControlName="isActive"
         />
       </label>
     </div>

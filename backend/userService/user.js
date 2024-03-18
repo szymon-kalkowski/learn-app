@@ -161,6 +161,188 @@ module.exports.deleteMe = async (event) => {
   }
 };
 
+module.exports.updateMe = async (event) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    dateOfBirth,
+    address,
+    specializationId,
+    isActive,
+  } = JSON.parse(event.body);
+  const { headers } = event;
+
+  try {
+    const token = headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const params = {
+      TableName: "users",
+      Key: {
+        id: decoded.id,
+      },
+    };
+
+    const { Item: user } = await dynamoDb.get(params).promise();
+
+    if (email) {
+      const userExist = await dynamoDb
+        .query({
+          TableName: "users",
+          IndexName: "EmailIndex",
+          KeyConditionExpression: "email = :email",
+          ExpressionAttributeValues: { ":email": email },
+        })
+        .promise();
+
+      if (userExist.Count > 0 && userExist.Items[0].id !== decoded.id) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify(
+            {
+              message: "Email already exists",
+              errorCode: 400,
+            },
+            null,
+            2
+          ),
+        };
+      }
+    }
+
+    const updateParams = {
+      TableName: "users",
+      Key: {
+        id: decoded.id,
+      },
+      UpdateExpression:
+        "set firstName = :firstName, lastName = :lastName, email = :email, isActive = :isActive",
+      ExpressionAttributeValues: {
+        ":firstName": firstName || user.firstName,
+        ":lastName": lastName || user.lastName,
+        ":email": email || user.email,
+        ":isActive": isActive === undefined ? user.isActive : isActive,
+      },
+      ReturnValues: "UPDATED_NEW",
+    };
+
+    const userResponse = await dynamoDb.update(updateParams).promise();
+    const updatedUser = userResponse.Attributes;
+
+    if (user.role === "student") {
+      const studentParams = {
+        TableName: "students",
+        IndexName: "UserIdIndex",
+        KeyConditionExpression: "userId = :userId",
+        ExpressionAttributeValues: { ":userId": decoded.id },
+      };
+
+      const response = await dynamoDb.query(studentParams).promise();
+
+      if (response.Count > 0) {
+        const student = response.Items[0];
+        let studentUpdateExpression = "set ";
+        let studentExpressionAttributeValues = {};
+
+        if (address && dateOfBirth) {
+          studentUpdateExpression +=
+            "address = :address, dateOfBirth = :dateOfBirth";
+          studentExpressionAttributeValues[":address"] = address;
+          studentExpressionAttributeValues[":dateOfBirth"] = dateOfBirth;
+        } else if (address) {
+          studentUpdateExpression += " address = :address";
+          studentExpressionAttributeValues[":address"] = address;
+        } else if (dateOfBirth) {
+          studentUpdateExpression += " dateOfBirth = :dateOfBirth";
+          studentExpressionAttributeValues[":dateOfBirth"] = dateOfBirth;
+        }
+
+        const studentUpdateParams = {
+          TableName: "students",
+          Key: {
+            id: student.id,
+          },
+          UpdateExpression: studentUpdateExpression,
+          ExpressionAttributeValues: studentExpressionAttributeValues,
+          ReturnValues: "UPDATED_NEW",
+        };
+
+        const result = await dynamoDb.update(studentUpdateParams).promise();
+        const updatedStudent = result.Attributes;
+
+        return {
+          statusCode: 200,
+          body: JSON.stringify(
+            {
+              ...user,
+              ...updatedUser,
+              ...updatedStudent,
+            },
+            null,
+            2
+          ),
+        };
+      }
+
+      if (user.role === "trainer") {
+        const trainerParams = {
+          TableName: "trainers",
+          IndexName: "UserIdIndex",
+          KeyConditionExpression: "userId = :userId",
+          ExpressionAttributeValues: { ":userId": decoded.id },
+        };
+
+        const response = await dynamoDb.query(trainerParams).promise();
+
+        if (response.Count > 0) {
+          const trainer = response.Items[0];
+          const trainerUpdateParams = {
+            TableName: "trainers",
+            Key: {
+              id: trainer.id,
+            },
+            UpdateExpression: "set specializationId = :specializationId",
+            ExpressionAttributeValues: {
+              ":specializationId": specializationId || trainer.specializationId,
+            },
+            ReturnValues: "UPDATED_NEW",
+          };
+
+          const result = await dynamoDb.update(trainerUpdateParams).promise();
+          const updatedTrainer = result.Attributes;
+
+          return {
+            statusCode: 200,
+            body: JSON.stringify(
+              {
+                ...user,
+                ...updatedUser,
+                ...updatedTrainer,
+              },
+              null,
+              2
+            ),
+          };
+        }
+      }
+    }
+  } catch (error) {
+    console.log("error", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: "Internal Server Error",
+          errorCode: 500,
+        },
+        null,
+        2
+      ),
+    };
+  }
+};
+
 module.exports.updatePassword = async (event) => {
   const { headers } = event;
   const { oldPassword, newPassword } = JSON.parse(event.body);

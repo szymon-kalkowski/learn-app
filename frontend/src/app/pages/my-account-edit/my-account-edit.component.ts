@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { specializations } from '../../constants/specializations';
 import { AuthService } from '../../services/auth.service';
 
@@ -19,12 +19,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MyAccountEditComponent implements OnInit {
   editForm: FormGroup = new FormGroup({});
+  editError: string | null = null;
 
   specializations = specializations;
 
   user: Student | Trainer | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   createForm(): void {
     const fields = {
@@ -38,7 +39,7 @@ export class MyAccountEditComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-      active: new FormControl<boolean | null>(this.user?.isActive || false),
+      isActive: new FormControl<boolean | null>(this.user?.isActive || false),
     };
 
     const studentFields = {
@@ -51,7 +52,7 @@ export class MyAccountEditComponent implements OnInit {
     };
 
     const trainerFields = {
-      specialization: new FormControl<string | null>(
+      specializationId: new FormControl<string | null>(
         (this.user as Trainer)?.specializationId || '',
         [Validators.required]
       ),
@@ -90,11 +91,18 @@ export class MyAccountEditComponent implements OnInit {
     return this.editForm.get('address');
   }
 
-  get specialization() {
+  get specializationId() {
     return this.editForm.get('specializationId');
   }
 
   onSubmit(): void {
-    console.log(this.editForm.value);
+    this.authService.updateUser(this.editForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/my-account']);
+      },
+      error: (error) => {
+        this.editError = error;
+      },
+    });
   }
 }

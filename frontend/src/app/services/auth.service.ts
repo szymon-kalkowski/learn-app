@@ -88,6 +88,17 @@ export class AuthService {
       );
   }
 
+  updateUser(body: any) {
+    return this.http.put(`${userApiUrl}/users/me`, body).pipe(
+      tap((response: any) => {
+        this.userSubject$.next(response);
+      }),
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
+    );
+  }
+
   getUser() {
     return this.userSubject$.asObservable();
   }
