@@ -84,7 +84,7 @@ export class AddTrainingComponent {
 
   onSubmit() {
     if (this.trainingForm.valid) {
-      const studentId = this.user?.id;
+      const studentId = this.user?.userId;
       this.trainingService
         .addTraining({ ...this.trainingForm.value, studentId })
         .subscribe({

@@ -2,6 +2,7 @@
 
 const { v4: uuidv4 } = require("uuid");
 const AWS = require("aws-sdk");
+const jwt = require("jsonwebtoken");
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -48,6 +49,73 @@ module.exports.postTraining = async (event) => {
     };
   } catch (error) {
     console.error(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: "Internal server error",
+          errorCode: 500,
+        },
+        null,
+        2
+      ),
+    };
+  }
+};
+
+module.exports.getTrainings = async (event) => {
+  try {
+    const { headers } = event;
+    if (!headers.authorization) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify(
+          {
+            message: "Unauthorized",
+            errorCode: 401,
+          },
+          null,
+          2
+        ),
+      };
+    }
+
+    const token = headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded.role === "student") {
+      const trainings = await dynamoDb
+        .scan({
+          TableName: "trainings",
+          FilterExpression: "studentId = :studentId",
+          ExpressionAttributeValues: {
+            ":studentId": decoded.id,
+          },
+        })
+        .promise();
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(trainings.Items, null, 2),
+      };
+    } else if (decoded.role === "trainer") {
+      const trainings = await dynamoDb
+        .scan({
+          TableName: "trainings",
+          FilterExpression: "trainerId = :trainerId",
+          ExpressionAttributeValues: {
+            ":trainerId": decoded.id,
+          },
+        })
+        .promise();
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(trainings.Items, null, 2),
+      };
+    }
+  } catch (error) {
+    console.log("error", error);
     return {
       statusCode: 500,
       body: JSON.stringify(

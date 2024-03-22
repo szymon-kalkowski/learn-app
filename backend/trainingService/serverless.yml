@@ -2,6 +2,8 @@ service: trainingservice
 
 frameworkVersion: "3"
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs18.x
@@ -28,6 +30,9 @@ provider:
           Resource:
             - "arn:aws:dynamodb:us-east-1:*:*"
 
+  environment:
+    JWT_SECRET: ${env.JWT_SECRET}
+
 functions:
   postTraining:
     handler: training.postTraining
@@ -35,6 +40,12 @@ functions:
       - httpApi:
           path: /trainings
           method: post
+  getTrainings:
+    handler: training.getTrainings
+    events:
+      - httpApi:
+          path: /trainings
+          method: get
 
 resources:
   Resources:

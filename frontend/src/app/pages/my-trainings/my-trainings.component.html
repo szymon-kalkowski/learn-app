@@ -1,7 +1,30 @@
 <h1 class="text-center text-3xl font-bold my-5">Trainings</h1>
 <div class="p-2 md:p-8">
+  @if (user?.role === 'student') {
   <button routerLink="add" class="btn btn-primary block mb-10" routerLink="add">
-    Add training
-  </button>
+    Add training</button
+  >}
   <h2 class="text-xl font-bold my-5">My passed trainings</h2>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <th>DATE</th>
+          <th>TRAINING NAME</th>
+          <th>Type</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (training of trainings; track $index) {
+        <tr>
+          <td>{{ training.date }}</td>
+          <td>{{ training.name }}</td>
+          <td>{{ training.type | trainingType }}</td>
+          <td>{{ training.duration }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
