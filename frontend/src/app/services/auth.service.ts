@@ -99,6 +99,10 @@ export class AuthService {
     );
   }
 
+  getTrainers() {
+    return this.http.get(`${userApiUrl}/users/trainers`);
+  }
+
   getUser() {
     return this.userSubject$.asObservable();
   }

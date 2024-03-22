@@ -1,0 +1,129 @@
+<h1 class="text-center text-3xl font-bold my-5">Add passed training</h1>
+<div class="p-2 md:p-8">
+  <h3 class="text-lg font-bold my-3">Training</h3>
+  <form
+    [formGroup]="trainingForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col px-2 sm-px-0"
+  >
+    <label class="form-control w-full max-w-md mb-2">
+      <div class="label md:pt-0">
+        <span class="label-text font-bold">Name</span>
+      </div>
+      <input
+        type="text"
+        placeholder="Name"
+        class="input input-bordered w-full max-w-md"
+        formControlName="name"
+      />
+      <div class="h-2">
+        @if (name?.invalid && (name?.dirty || name?.touched)) {
+        <span class="text-error">First Name is required</span>
+        }
+      </div>
+    </label>
+    <label class="form-control w-full max-w-md my-2">
+      <div class="label">
+        <span class="label-text font-bold">Training start date</span>
+      </div>
+      <input
+        type="date"
+        placeholder="Date"
+        class="input input-bordered w-full max-w-md"
+        formControlName="date"
+      />
+      <div class="h-2">
+        @if (date?.invalid && (date?.dirty || date?.touched)) {
+        <span class="text-error">Date is required</span>
+        }
+      </div>
+    </label>
+    <label class="form-control w-full max-w-md my-2">
+      <div class="label">
+        <span class="label-text font-bold">Duration</span>
+      </div>
+      <input
+        type="number"
+        placeholder="Duration"
+        class="input input-bordered w-full max-w-md"
+        formControlName="duration"
+      />
+      <div class="h-2">
+        @if (duration?.errors?.['min'] && (duration?.dirty ||
+        duration?.touched)) {
+        <span class="text-error">Duration must above 0</span>
+        }
+      </div>
+    </label>
+    <label class="form-control w-full max-w-md my-2">
+      <div class="label">
+        <span class="label-text font-bold">Type</span>
+      </div>
+      <select
+        class="select select-bordered w-full max-w-md"
+        formControlName="type"
+      >
+        <option value="">Select training type</option>
+        @for(trainigType of trainingTypes; track $index) {
+        <option [value]="trainigType.id">{{ trainigType.trainingType }}</option>
+        }
+      </select>
+      <div class="h-2">
+        @if (type?.invalid && (type?.dirty || type?.touched)) {
+        <span class="text-error">Type is required</span>
+        }
+      </div>
+    </label>
+    <label class="form-control w-full max-w-md my-2">
+      <div class="label">
+        <span class="label-text font-bold">Description</span>
+      </div>
+      <textarea
+        type="text"
+        placeholder="Description"
+        class="input input-bordered w-full max-w-md h-24"
+        formControlName="description"
+      ></textarea>
+      <div class="h-2">
+        @if (description?.invalid && (description?.dirty ||
+        description?.touched)) {
+        <span class="text-error">Description is required</span>
+        }
+      </div>
+    </label>
+    <label class="form-control w-full max-w-md my-2">
+      <div class="label">
+        <span class="label-text font-bold">Trainer</span>
+      </div>
+      <select
+        class="select select-bordered w-full max-w-md"
+        formControlName="trainerId"
+      >
+        <option value="">Select trainer</option>
+        @for(trainer of trainers; track $index) {
+        <option [value]="trainer.id">
+          {{ trainer.firstName }} {{ trainer.lastName }}
+        </option>
+        }
+      </select>
+      <div class="h-2">
+        @if (trainerId?.invalid && (trainerId?.dirty || trainerId?.touched)) {
+        <span class="text-error">Trainer is required</span>
+        }
+      </div>
+    </label>
+
+    <div class="flex flex-wrap justify-center items-center mt-10">
+      <button class="btn btn-ghost mr-2" routerLink="/my-account/trainings">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!trainingForm.valid"
+      >
+        Add training
+      </button>
+    </div>
+  </form>
+</div>

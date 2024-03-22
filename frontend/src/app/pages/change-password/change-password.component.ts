@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
 
 interface ChangePasswordFrom {
@@ -18,7 +18,7 @@ interface ChangePasswordFrom {
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })

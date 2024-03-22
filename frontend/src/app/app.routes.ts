@@ -11,6 +11,8 @@ import { MyAccountEditComponent } from './pages/my-account-edit/my-account-edit.
 import { authGuard } from './guards/auth.guard';
 import { noAuthGuard } from './guards/no-auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { MyTrainingsComponent } from './pages/my-trainings/my-trainings.component';
+import { AddTrainingComponent } from './pages/add-training/add-training.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +59,16 @@ export const routes: Routes = [
   {
     path: 'my-account/change-password',
     component: ChangePasswordComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'my-account/trainings',
+    component: MyTrainingsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'my-account/trainings/add',
+    component: AddTrainingComponent,
     canActivate: [authGuard],
   },
 ];

@@ -84,6 +84,12 @@ functions:
           method: put
           authorizer:
             name: jwtAuthorizer
+  getTrainers:
+    handler: user.getTrainers
+    events:
+      - httpApi:
+          path: /users/trainers
+          method: get
 
 resources:
   Resources:
@@ -96,6 +102,8 @@ resources:
             AttributeType: S
           - AttributeName: email
             AttributeType: S
+          - AttributeName: role
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -106,6 +114,15 @@ resources:
           - IndexName: EmailIndex
             KeySchema:
               - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+          - IndexName: RoleIndex
+            KeySchema:
+              - AttributeName: role
                 KeyType: HASH
             Projection:
               ProjectionType: ALL

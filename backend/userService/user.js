@@ -422,3 +422,41 @@ module.exports.updatePassword = async (event) => {
     };
   }
 };
+
+module.exports.getTrainers = async (event) => {
+  try {
+    const params = {
+      TableName: "users",
+      IndexName: "RoleIndex",
+      KeyConditionExpression: "#role = :role",
+      ExpressionAttributeNames: {
+        "#role": "role",
+      },
+      ExpressionAttributeValues: {
+        ":role": "trainer",
+      },
+    };
+
+    const response = await dynamoDb.query(params).promise();
+
+    const trainers = response.Items;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(trainers, null, 2),
+    };
+  } catch (error) {
+    console.log("error", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: "Internal Server Error",
+          errorCode: 500,
+        },
+        null,
+        2
+      ),
+    };
+  }
+};
