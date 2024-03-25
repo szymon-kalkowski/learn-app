@@ -1,1 +1,110 @@
-<p>pricing works!</p>
+<div class="p-2 md:p-8">
+  <h1 class="text-center text-3xl font-bold my-5">Let's start learning</h1>
+  <div class="text-center w-full md:w-1/2 mx-auto">
+    Welcome to Learn Platform - where every day is a day to learn. Dive into the
+    vast ocean of knowledge and empower yourselg with the tools for a auccessful
+    tomorrow. Happy learning!
+  </div>
+  <div class="flex flex-wrap items-center my-5 justify-center">
+    <div class="rounded-lg bg-base-200 p-4 w-[300px] drop-shadow">
+      <h2 class="font-bold text-xl my-2">Group</h2>
+      <div>Perfect for side or hobby projects</div>
+      <div class="flex my-2">
+        <h1 class="font-bold text-4xl">$50</h1>
+        <div>/month</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Up to 5 users</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Collaboration features</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-xl">&#10006;</div>
+        <div class="ml-2">Smart analytics</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-xl">&#10006;</div>
+        <div class="ml-2">30-daty free trial</div>
+      </div>
+      <a class="btn btn-outline btn-primary w-full my-3">Upgrade</a>
+    </div>
+
+    <div
+      class="rounded-lg bg-base-100 drop-shadow p-4 w-[300px] drop-shadow h-[400px] flex flex-col justify-center"
+    >
+      <h2 class="font-bold text-3xl my-2 text-primary">Personal</h2>
+      <div>Perfect for small teams</div>
+      <div class="flex my-2">
+        <h1 class="font-bold text-4xl">$100</h1>
+        <div>/team/month</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Unlimited users</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Collaboration features</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Smart analytics</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">30-daty free trial</div>
+      </div>
+      <a class="btn btn-primary w-full my-3">Upgrade</a>
+    </div>
+
+    <div class="rounded-lg bg-base-200 p-4 w-[300px]">
+      <h2 class="font-bold text-xl my-2">Organization</h2>
+      <div>Perfect for organizations</div>
+      <div class="flex my-2">
+        <h1 class="font-bold text-4xl">$150</h1>
+        <div>/user/month</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Unlimited users</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Collaboration features</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">Smart analytics</div>
+      </div>
+      <div class="flex items-center">
+        <div class="font-bold text-success text-xl">&#10003;</div>
+        <div class="ml-2">30-daty free trial</div>
+      </div>
+      <a class="btn btn-outline btn-primary w-full my-3">Contact sale</a>
+    </div>
+  </div>
+
+  <h1 class="text-center text-3xl font-bold my-5">
+    Frequently asked questions
+  </h1>
+  <div class="text-center">Exercitation dolore reprehenderit fugi</div>
+
+  <div class="my-5">
+    @for (question of questions; track $index) {
+    <div
+      [tabIndex]="$index"
+      class="collapse collapse-arrow border border-base-300 bg-base-200 my-3"
+    >
+      <div class="collapse-title text-xl font-medium">
+        {{ question.title }}
+      </div>
+      <div class="collapse-content">
+        <p>{{ question.answer }}</p>
+      </div>
+    </div>
+    }
+  </div>
+</div>

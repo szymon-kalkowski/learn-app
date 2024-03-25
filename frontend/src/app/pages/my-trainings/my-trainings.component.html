@@ -1,5 +1,6 @@
-<h1 class="text-center text-3xl font-bold my-5">Trainings</h1>
 <div class="p-2 md:p-8">
+  <app-breadcrumbs></app-breadcrumbs>
+  <h1 class="text-center text-3xl font-bold my-5">Trainings</h1>
   @if (user?.role === 'student') {
   <button routerLink="add" class="btn btn-primary block mb-10" routerLink="add">
     Add training</button

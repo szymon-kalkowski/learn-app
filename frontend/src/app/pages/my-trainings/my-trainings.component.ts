@@ -5,11 +5,12 @@ import { Training } from '../../models/training.model';
 import { TrainingTypePipe } from '../../pipes/training-type.pipe';
 import { Student, Trainer } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-my-trainings',
   standalone: true,
-  imports: [RouterLink, TrainingTypePipe],
+  imports: [RouterLink, TrainingTypePipe, BreadcrumbsComponent],
   templateUrl: './my-trainings.component.html',
   styleUrl: './my-trainings.component.scss',
 })

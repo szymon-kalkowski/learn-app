@@ -1,1 +1,44 @@
-<p>about-us works!</p>
+<div class="p-2 md:p-8">
+  <h1 class="text-center text-3xl font-bold my-5">About Us</h1>
+  <div class="text-center w-full md:w-2/3 mx-auto">
+    Welcome to the 'About Us' section of Learn Platform, where we aim to provide
+    you with a deeper understanding of our philosophy, values, and mission.
+    Estabilished in 2023, Learn Platform was born out of a passion for learning
+    and belief in the power of knwledge to transform lives.
+  </div>
+  <div class="flex justify-center my-8">
+    <img
+      src="assets/photos/about-us.png"
+      alt="about us"
+      class="w-full md:w-2/3"
+    />
+  </div>
+  <div class="flex items-center justify-center flex-wrap">
+    <div class="w-full md:w-80 p-4">
+      <h1 class="text-4xl my-3 font-bold">Our Team</h1>
+      <div class="text-justify">
+        Our team is made up of dedicated professionals who are passionate about
+        learning and committed to providing you with the best possible learning
+        experience.
+      </div>
+    </div>
+    <div class="w-full md:w-[800px] flex flex-wrap">
+      @for (person of persons; track $index) {
+      <div class="p-2 w-full md:w-1/3">
+        <div class="rounded-lg bg-base-200 flex flex-col items-center p-4">
+          <img
+            src="{{ person.image }}"
+            alt="team"
+            class="w-40 h-40 rounded-full my-3"
+          />
+          <h2 class="text-xl font-bold">{{ person.name }}</h2>
+          <p class="text-primary my-2">{{ person.position }}</p>
+          <p class="text-center">
+            {{ person.description }}
+          </p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="p-2 md:p-8">
+  <h1 class="text-center text-4xl font-bold my-5">Hi, {{ username }}!</h1>
+  <div class="text-center w-full md:w-1/2 mx-auto">
+    Welcome to Learn Platform - where every day is a day to learn. Dive into the
+    vast ocean of knowledge and empower yourselg with the tools for a auccessful
+    tomorrow. Happy learning!
+  </div>
+  <h1 class="text-center text-3xl font-bold mt-10 mb-3">What's new?</h1>
+  <div class="text-center w-full md:w-1/2 mx-auto">
+    Check out the latest blog posts and start learning today. We have a wide
+    range of courses to choose from.
+  </div>
+  <div class="flex p-4 flex-wrap">
+    @for (box of boxes; track $index) {
+    <app-box class="w-full md:w-1/3 p-4" [box]="box"></app-box>
+    }
+  </div>
+</div>

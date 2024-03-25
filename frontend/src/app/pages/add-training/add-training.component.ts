@@ -10,11 +10,12 @@ import { Router, RouterLink } from '@angular/router';
 import { trainingTypes } from '../../constants/trainingTypes';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-add-training',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, BreadcrumbsComponent],
   templateUrl: './add-training.component.html',
   styleUrl: './add-training.component.scss',
 })

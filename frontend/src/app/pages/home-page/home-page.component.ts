@@ -1,36 +1,24 @@
 import { Component } from '@angular/core';
 import { BoxComponent } from '../../components/box/box.component';
 import { Box } from '../../models/box-model';
+import { Student, Trainer } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
+import { HomeComponent } from '../../components/home/home.component';
+import { UserHomeComponent } from '../../components/user-home/user-home.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [BoxComponent],
+  imports: [HomeComponent, UserHomeComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  boxes: Box[] = [
-    {
-      tag: 'Do consectetur',
-      title: 'Aliqua Irure Tempor Lorem Adipisicing',
-      date: '2021-10-10',
-      time: 5,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      tag: 'Do consectetur',
-      title: 'Aliqua Irure Tempor Lorem Adipisicing',
-      date: '2021-10-10',
-      time: 5,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      tag: 'Do consectetur',
-      title: 'Aliqua Irure Tempor Lorem Adipisicing',
-      date: '2021-10-10',
-      time: 5,
-      image: 'https://via.placeholder.com/150',
-    },
-  ];
+  user: Student | Trainer | null = null;
+
+  constructor(private authService: AuthService) {
+    this.authService.getUser().subscribe((user) => {
+      this.user = user;
+    });
+  }
 }

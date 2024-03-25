@@ -9,11 +9,12 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { specializations } from '../../constants/specializations';
 import { AuthService } from '../../services/auth.service';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-my-account-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, BreadcrumbsComponent],
   templateUrl: './my-account-edit.component.html',
   styleUrl: './my-account-edit.component.scss',
 })

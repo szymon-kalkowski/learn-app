@@ -1,10 +1,11 @@
-<h1 class="text-center text-3xl font-bold my-5">My Account</h1>
-<div class="h-2 w-full flex justify-center">
-  @if (editError) {
-  <span class="text-error">{{ editError }}</span>
-  }
-</div>
-<div class="px-2 sm:px-8">
+<div class="p-2 sm:px-8">
+  <app-breadcrumbs></app-breadcrumbs>
+  <h1 class="text-center text-3xl font-bold my-5">My Account</h1>
+  <div class="h-2 w-full flex justify-center">
+    @if (editError) {
+    <span class="text-error">{{ editError }}</span>
+    }
+  </div>
   <h2 class="text-xl font-bold my-3">Edit profile</h2>
   <label class="block font-bold my-2">Profile photo</label>
   <div class="flex flex-wrap mb-2">

@@ -1,1 +1,6 @@
-<p>blog works!</p>
+<h1 class="text-center text-3xl font-bold my-5">Blog</h1>
+<div class="flex p-4 flex-wrap">
+  @for (box of boxes; track $index) {
+  <app-box class="w-full md:w-1/3 p-4" [box]="box"></app-box>
+  }
+</div>

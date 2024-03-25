@@ -5,8 +5,24 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './pricing.component.html',
-  styleUrl: './pricing.component.scss'
+  styleUrl: './pricing.component.scss',
 })
 export class PricingComponent {
-
+  questions = [
+    {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      answer:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc nec ultricies ultricies, nunc nunc.',
+    },
+    {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      answer:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc nec ultricies ultricies, nunc nunc.',
+    },
+    {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      answer:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc nec ultricies ultricies, nunc nunc.',
+    },
+  ];
 }

@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 
 interface ChangePasswordFrom {
   currentPassword: FormControl<string | null>;
@@ -18,7 +19,7 @@ interface ChangePasswordFrom {
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, BreadcrumbsComponent],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })
