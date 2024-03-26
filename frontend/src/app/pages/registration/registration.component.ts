@@ -11,6 +11,8 @@ import { RegistrationFormComponent } from '../../components/registration-form/re
 })
 export class RegistrationComponent {
   type: string = '';
+  studentImage: string = 'assets/register/student.png';
+  trainerImage: string = 'assets/register/trainer.png';
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
       this.type = params['type'];

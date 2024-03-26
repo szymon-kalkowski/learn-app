@@ -15,14 +15,14 @@ export class JoinUsComponent {
       title: 'Register as Trainer',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'https://via.placeholder.com/150',
+      image: 'assets/register/trainers.png',
       link: '/register/trainer',
     },
     {
       title: 'Register as Student',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'https://via.placeholder.com/150',
+      image: 'assets/register/students.png',
       link: '/register/student',
     },
   ];

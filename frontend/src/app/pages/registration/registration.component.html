@@ -6,7 +6,7 @@
       class="w-full md:w-1/3 flex justify-center items-center rounded-lg overflow-hidden"
     >
       <img
-        src="https://via.placeholder.com/300"
+        [src]="type === 'student' ? studentImage : trainerImage"
         alt="placeholder"
         class="w-full h-full object-cover"
       />
