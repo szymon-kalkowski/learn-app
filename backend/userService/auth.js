@@ -183,17 +183,51 @@ module.exports.login = async (event) => {
       { expiresIn: "2h" }
     );
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          token,
-          user: { ...userData, password: undefined },
-        },
-        null,
-        2
-      ),
-    };
+    if (userData.role === "student") {
+      const studentParams = {
+        TableName: "students",
+        IndexName: "UserIdIndex",
+        KeyConditionExpression: "userId = :userId",
+        ExpressionAttributeValues: { ":userId": userData.id },
+      };
+
+      const response = await dynamoDb.query(studentParams).promise();
+      const student = response.Items[0];
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          {
+            token,
+            user: { ...userData, ...student, password: undefined },
+          },
+          null,
+          2
+        ),
+      };
+    } else if (userData.role === "trainer") {
+      const trainerParams = {
+        TableName: "trainers",
+        IndexName: "UserIdIndex",
+        KeyConditionExpression: "userId = :userId",
+        ExpressionAttributeValues: { ":userId": userData.id },
+      };
+
+      const response = await dynamoDb.query(trainerParams).promise();
+      const trainer = response.Items[0];
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          {
+            token,
+            user: { ...userData, ...trainer, password: undefined },
+          },
+          null,
+          2
+        ),
+      };
+    }
   } catch (error) {
     console.log("error", error);
     return {

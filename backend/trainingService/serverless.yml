@@ -15,6 +15,7 @@ provider:
     cors:
       allowedOrigins:
         - "http://localhost:4200"
+        - "https://d2do5lc8ywvzh0.cloudfront.net"
       allowedHeaders:
         - "*"
       exposedResponseHeaders:
